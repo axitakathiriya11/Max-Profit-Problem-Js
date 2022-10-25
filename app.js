@@ -17,16 +17,13 @@ const bussinesses = [
 ];
 
 const testcase1 = {
-  time: 7,
-  earning: 3000,
+  time: 7
 };
 const testcase2 = {
-  time: 8,
-  earning: 4500,
+  time: 8
 };
 const testcase3 = {
-  time: 13,
-  earning: 16500,
+  time: 13
 };
 
 const timeToBuild = [5, 4, 10];
@@ -34,6 +31,9 @@ const earningPerUnit = [1500, 1000, 3000];
 
 function calculateProfit(input) {
   let result = [];
+  let solutions = [];
+  let totalEarningFromBussiness = 0;
+  
   for (let i = 0; i < bussinesses.length; i++) {
     let bussiness = bussinesses[i];
     if (input.time < bussiness.developmentTime) {
@@ -43,20 +43,30 @@ function calculateProfit(input) {
       let totalBussinessRunningTime = 0;
       let totalTimeSpentInDevelopment = 0;
       for (let i = 1; i <= noOfBussiness; i++) {
-        let bussinessRunningTime =
-          input.time - totalTimeSpentInDevelopment - bussiness.developmentTime;
+        let bussinessRunningTime = 
+        input.time - totalTimeSpentInDevelopment - bussiness.developmentTime;
         totalBussinessRunningTime += bussinessRunningTime;
         totalTimeSpentInDevelopment += bussiness.developmentTime;
       }
-      let totalEarningFromBussiness =
-        totalBussinessRunningTime * bussiness.earning;
-      if (totalEarningFromBussiness == input.earning) {
-        let solution = { T: 0, P: 0, C: 0 };
+
+      const totalComputedEarnings = (totalBussinessRunningTime * bussiness.earning);
+    
+      if(totalComputedEarnings >= totalEarningFromBussiness) {
+     
+        let solution = { T:0,P:0,C: 0 };
         solution[bussiness.name] = noOfBussiness;
-        result.push(solution);
+        solutions.push(solution);
+
+          if(totalComputedEarnings > totalEarningFromBussiness) {
+            totalEarningFromBussiness =
+            totalBussinessRunningTime * bussiness.earning;
+            result.push(`$${totalEarningFromBussiness}`);
+          }
       }
     }
   }
+
+  result.push(solutions);
   return result;
 }
 
